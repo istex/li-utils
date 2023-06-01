@@ -1,2 +1,2 @@
-# istex-config
-C'est un dépôt de configuration centralisé pour l'applicatif ISTEX. Orienté vers la partie métier ISTEX.
+# li-utils
+Regroupe un ensemble de fonction utilitaires pour load-istex
