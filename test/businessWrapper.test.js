@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const BusinessWrapper = require('../src/BusinessWrapper');
+const BusinessWrapper = require('../src/LegacyBusinessWrapper');
 const EventEmitter = require('node:events');
 
 function buildBusiness (businessModule) { return new BusinessWrapper(businessModule); }

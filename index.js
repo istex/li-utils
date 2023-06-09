@@ -1,5 +1,5 @@
 module.exports = {
   AbstractBusiness: require('./src/AbstractBusiness'),
-  BusinessWrapper: require('./src/BusinessWrapper'),
+  LegacyBusinessWrapper: require('./src/LegacyBusinessWrapper'),
   setDocObjectError: require('./src/setDocObjectError'),
 };
