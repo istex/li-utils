@@ -9,7 +9,7 @@ class LegacyBusinessWrapper extends AbstractBusiness {
     super();
     assert.ok(isPlainObject(legacyBusinessModule), 'Expect <businessModule> to be a plain {object}');
     this._businessModule = _promisify(legacyBusinessModule);
-    Object.assign(this, { props } ,this._businessModule);
+    Object.assign(this, { props }, this._businessModule);
   }
 }
 
@@ -23,10 +23,15 @@ function _promisify (businessModule) {
       return ({
         [fn.name]: async function (...args) {
           return new Promise((resolve, reject) => {
-            fn.call(this, ...args, (err, result) => {
-              handleOptionsLog.call(this, result);
+            fn.call(this, ...args, (err, options) => {
+              handleOptionsLog.call(this, options);
+              if(fn.name === 'finalJob'){
+                if(Array.isArray(err)){
+                  return resolve({errors:err, result:_.first(args)} );
+                }
+              }
               if (err) return reject(err);
-              resolve();
+              resolve(_.first(args));
             });
           });
         },
@@ -35,17 +40,18 @@ function _promisify (businessModule) {
     .value();
 }
 
-function handleOptionsLog(value){
+function handleOptionsLog (value) {
   _.chain(value)
     .get('processLogs')
-    .forEach((processLog)=>{this.emit('info', processLog)})
+    .forEach((processLog) => { this.emit('info', processLog); })
     .value();
 
   _.chain(value)
     .get('errLogs')
-    .forEach((errorLog)=>{this.emit('error', errorLog)})
+    .forEach((errorLog) => { this.emit('error', errorLog); })
     .value();
 }
+
 function _ensureMethodsAcceptsCb (businessModule) {
   return _.chain(businessModule)
     .pickBy(_.isFunction)
