@@ -67,55 +67,26 @@ describe('BusinessWrapper(businessModule)', () => {
       .catch(done);
   });
 
-  it('Should return an {object} that has promesified/async method #dotTheJob that accepts cb', (done) => {
+  it('Should return an {object} that has promesified/async method #dotTheJob', (done) => {
     const businessModule = {
-      doTheJob: function (docObject, cb) { return cb(null, { body: 'expectedResult' }); },
+      doTheJob: function (docObject, cb) { return cb(); },
     };
     const business = new BusinessWrapper(businessModule);
-    business.doTheJob(
-      {},
-      (err, result) => {
-        if (err) return done(err);
-        expect(result.body).to.be('expectedResult');
-        business.doTheJob({})
-          .then((result) => { expect(result.body).to.be('expectedResult'); })
-          .then(done)
-          .catch(done);
-      });
+    const docObject = {};
+    business.doTheJob(docObject)
+      .then((result) => { expect(result).to.be(docObject); })
+      .then(done)
+      .catch(done);
   });
 
-  it('Should return an {object} that has method #finalJob that accepts cb', (done) => {
+  it('Should return an {object} that has method #afterAllTheJobs', (done) => {
     const businessModule = {
-      finalJob: async function (docObjects) { return { body: 'expectedResult' }; },
+      afterAllTheJobs: function (cb) { return cb(); },
     };
     const business = new BusinessWrapper(businessModule);
 
-    business.finalJob(
-      [],
-      (err, result) => {
-        if (err) return done(err);
-        expect(result.body).to.be('expectedResult');
-        business.finalJob([])
-          .then((result) => { expect(result.body).to.be('expectedResult'); })
-          .then(done)
-          .catch(done);
-      });
-  });
-
-  it('Should return an {object} that has method #afterAllTheJobs that accepts cb', (done) => {
-    const businessModule = {
-      afterAllTheJobs: function (cb) { return cb(null, { body: 'expectedResult' }); },
-    };
-    const business = new BusinessWrapper(businessModule);
-
-    business.afterAllTheJobs(
-      (err, result) => {
-        if (err) return done(err);
-        expect(result.body).to.be('expectedResult');
-        business.afterAllTheJobs()
-          .then((result) => { expect(result.body).to.be('expectedResult'); })
-          .then(done)
-          .catch(done);
-      });
+    business.afterAllTheJobs()
+      .then(done)
+      .catch(done);
   });
 });

@@ -25,9 +25,9 @@ function _promisify (businessModule) {
           return new Promise((resolve, reject) => {
             fn.call(this, ...args, (err, options) => {
               handleOptionsLog.call(this, options);
-              if(fn.name === 'finalJob'){
-                if(Array.isArray(err)){
-                  return resolve({errors:err, result:_.first(args)} );
+              if (fn.name === 'finalJob') {
+                if (Array.isArray(err)) {
+                  return resolve({ errors: err, result: _.first(args) });
                 }
               }
               if (err) return reject(err);
