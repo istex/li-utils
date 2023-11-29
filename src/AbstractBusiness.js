@@ -1,6 +1,7 @@
 const EventEmitter = require('node:events');
 const assert = require('assert').strict;
 const { isObject } = require('lodash');
+const pkg = require('../package.json');
 
 module.exports = class AbstractBusiness extends EventEmitter {
   constructor ({ props = {} } = {}) {
@@ -25,4 +26,20 @@ module.exports = class AbstractBusiness extends EventEmitter {
   async beforeAnyJob () {}
 
   async afterAllTheJobs () {}
+
+  __getObjectId () {
+    return {
+      prototypeChain: getPrototypeChain(this),
+      npmName: pkg.name,
+      npmVersion: pkg.version,
+    };
+  }
 };
+
+function getPrototypeChain (o) {
+  const result = [];
+  result.push(o?.constructor?.name);
+  const parent = Object.getPrototypeOf(o);
+  if (!parent) return result;
+  return result.concat(getPrototypeChain(parent));
+}
