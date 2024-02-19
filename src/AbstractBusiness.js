@@ -27,19 +27,43 @@ module.exports = class AbstractBusiness extends EventEmitter {
 
   async afterAllTheJobs () {}
 
+  // links event emitted from one instance of EventEmitter to Business events listeners
+  // Limited to specifics events that are listed below
+  linksEventEmitter (ee) {
+    // Event by severity RFC5424
+    const events = {
+      error: 0,
+      warn: 1,
+      info: 2,
+      http: 3,
+      verbose: 4,
+      debug: 5,
+      silly: 6,
+    };
+
+    Object
+      .keys(events)
+      .forEach((event) => {
+        ee.on(event, (...args) => {
+          this.emit(event, ...args);
+        });
+      });
+  }
+
   __getObjectId () {
     return {
-      prototypeChain: getPrototypeChain(this),
+      prototypeChain: _getPrototypeChain(this),
       npmName: pkg.name,
       npmVersion: pkg.version,
     };
   }
 };
 
-function getPrototypeChain (o) {
+// helpers
+function _getPrototypeChain (o) {
   const result = [];
   result.push(o?.constructor?.name);
   const parent = Object.getPrototypeOf(o);
   if (!parent) return result;
-  return result.concat(getPrototypeChain(parent));
+  return result.concat(_getPrototypeChain(parent));
 }

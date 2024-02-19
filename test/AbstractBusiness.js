@@ -2,7 +2,7 @@ const expect = require('expect.js');
 const AbstractBusiness = require('../src/AbstractBusiness');
 
 describe('AbstractBusiness', () => {
-  it('Should inherit #__getObjectId()', () => {
+  it('Should make instance inherit #__getObjectId()', () => {
     const Business = class Business extends AbstractBusiness {};
     const business = new Business();
     const result = business.__getObjectId();

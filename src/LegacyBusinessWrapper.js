@@ -1,4 +1,3 @@
-const EventEmitter = require('node:events');
 const assert = require('node:assert').strict;
 const { isPlainObject, _ } = require('lodash');
 const { isAsync } = require('../helpers/isAsync');
