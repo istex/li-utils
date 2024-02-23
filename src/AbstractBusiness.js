@@ -31,7 +31,7 @@ module.exports = class AbstractBusiness extends EventEmitter {
   // Limited to specifics events that are listed below
   linksEventEmitter (ee) {
     // Event by severity RFC5424
-    const events = {
+    const syslogEvents = {
       error: 0,
       warn: 1,
       info: 2,
@@ -41,8 +41,13 @@ module.exports = class AbstractBusiness extends EventEmitter {
       silly: 6,
     };
 
-    Object
-      .keys(events)
+    const businessEvent = ['outputDocObjects'];
+
+    const events = Object
+      .keys(syslogEvents)
+      .concat(businessEvent);
+
+    events
       .forEach((event) => {
         ee.on(event, (...args) => {
           this.emit(event, ...args);
