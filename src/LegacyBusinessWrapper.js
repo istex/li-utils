@@ -17,14 +17,15 @@ module.exports = LegacyBusinessWrapper;
 function _promisify (businessModule) {
   return _.chain(businessModule)
     .pickBy(_.isFunction)
-    .mapValues((fn) => {
+    .mapValues((fn, key) => {
+      const fnName = fn.name === '' ? key : fn.name;
       if (isAsync(fn)) return fn;
       return ({
-        [fn.name]: async function (...args) {
+        [fnName]: async function (...args) {
           return new Promise((resolve, reject) => {
             fn.call(this, ...args, (err, options) => {
               handleOptionsLog.call(this, options);
-              if (fn.name === 'finalJob') {
+              if (fnName === 'finalJob') {
                 if (Array.isArray(err) || err == null) {
                   return resolve({ errors: err ?? [], result: _.first(args) });
                 }
@@ -34,7 +35,7 @@ function _promisify (businessModule) {
             });
           });
         },
-      })[fn.name];
+      })[fnName];
     })
     .value();
 }

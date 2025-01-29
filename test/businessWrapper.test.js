@@ -35,13 +35,13 @@ describe('BusinessWrapper(businessModule)', () => {
     business.doTheJob({});
   });
 
-  it('Should return an {object} with methods that keep their original name', () => {
+  it('Should return an {object} with methods that keep their original name, from literal declaration', () => {
     const businessModule = {
       doTheJob: function (docObject, cb) { return cb(); },
-      beforeAnyJob: async function (cb) { return cb(); },
+      beforeAnyJob: async function () { },
       afterAllTheJobs: function (cb) { return cb(); },
       initialJob: function (cb) { return cb(); },
-      finalJob: async function (docObjects, cb) { return cb(); },
+      finalJob: async function (docObjects) { },
     };
     const business = new BusinessWrapper(businessModule);
     expect(business.doTheJob.name).to.be('doTheJob');
@@ -51,6 +51,20 @@ describe('BusinessWrapper(businessModule)', () => {
     expect(business.finalJob.name).to.be('finalJob');
   });
 
+  it('Should return an {object} with methods that keep their original name, from key declaration', () => {
+    const businessModule = {};
+    businessModule.doTheJob = function (docObject, cb) { return cb(); };
+    businessModule.beforeAnyJob = async function () { };
+    businessModule.afterAllTheJobs = function (cb) { return cb(); };
+    businessModule.initialJob = function (cb) { return cb(); };
+    businessModule.finalJob = function (docObjects, cb) { return cb(); };
+
+    const business = new BusinessWrapper(businessModule);
+    expect(business.doTheJob.name).to.be('doTheJob');
+    expect(business.afterAllTheJobs.name).to.be('afterAllTheJobs');
+    expect(business.initialJob.name).to.be('initialJob');
+    expect(business.finalJob.name).to.be('finalJob');
+  });
   it('Should return an {object} with methods #afterAllTheJobs that emit events', (done) => {
     const businessModule = {
       afterAllTheJobs: function (cb) {
