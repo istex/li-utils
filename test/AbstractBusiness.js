@@ -1,5 +1,6 @@
 const expect = require('expect.js');
 const AbstractBusiness = require('../src/AbstractBusiness');
+const pkg = require('../package.json');
 
 describe('AbstractBusiness', () => {
   it('Should make instance inherit #__getObjectId()', () => {
@@ -14,8 +15,8 @@ describe('AbstractBusiness', () => {
         'EventEmitter',
         'Object',
       ],
-      npmName: '@istex/li-utils',
-      npmVersion: '1.1.0',
+      npmName: pkg.name,
+      npmVersion: pkg.version,
     });
   });
 });
