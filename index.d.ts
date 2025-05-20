@@ -18,12 +18,12 @@ interface CommonDocObject {
     original: boolean;
     mime: string;
   }[];
-  fulltext?: {
+  fulltext?: ({
     path: string;
     original: boolean;
     mime: string;
     cleaned?: boolean;
-  }[];
+  } & Record<string, unknown>)[];
   error?: {
     message?: string;
     stack?: string;
