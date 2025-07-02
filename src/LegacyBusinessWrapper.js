@@ -27,7 +27,7 @@ function _promisify (businessModule) {
               handleOptionsLog.call(this, options);
               if (fnName === 'finalJob') {
                 if (Array.isArray(err) || err == null) {
-                  return resolve({ errors: err ?? [], result: _.first(args) });
+                  return resolve({ errors: err ?? [], results: _.first(args) });
                 }
               }
               if (err) return reject(err);
