@@ -1,10 +1,10 @@
 import type { EventEmitter } from "node:events";
 
-type FileEntry = {
+export interface FileEntry {
   path: string;
   original: boolean;
   mime: string;
-} & Record<string, unknown>;
+}
 
 interface CommonDocObject {
   idIstex: string;
