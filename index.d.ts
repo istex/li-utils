@@ -1,6 +1,6 @@
 import type { EventEmitter } from "node:events";
 
-interface FileEntry {
+export interface FileEntry {
   path: string;
   original: boolean;
   mime: string;
