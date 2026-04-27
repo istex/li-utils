@@ -25,19 +25,19 @@ describe('isTextPdf(pdfBuffer, threshold = 15)', () => {
     const pdfBuffer = fs.readFileSync('test/data/empty.pdf');
     expect(await isTextPdf(pdfBuffer)).to.be(false);
   });
-  it('Should return true for false pdf', async () => {
+  it('Should return false for false pdf', async () => {
     const pdfBuffer = fs.readFileSync('test/data/false.pdf');
     expect(await isTextPdf(pdfBuffer)).to.be(false);
   });
-  it('Should return true for image pdf', async () => {
+  it('Should return false for image pdf', async () => {
     const pdfBuffer = fs.readFileSync('test/data/image.pdf');
     expect(await isTextPdf(pdfBuffer)).to.be(false);
   });
-  it('Should return true for big image pdf', async () => {
+  it('Should return false for big image pdf', async () => {
     const pdfBuffer = fs.readFileSync('test/data/image_big.pdf');
     expect(await isTextPdf(pdfBuffer)).to.be(false);
   });
-  it('Should return true for protected pdf', async () => {
+  it('Should return false for protected pdf', async () => {
     const pdfBuffer = fs.readFileSync('test/data/protected.pdf');
     expect(await isTextPdf(pdfBuffer)).to.be(false);
   });
