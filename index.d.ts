@@ -61,3 +61,8 @@ export function setDocObjectError(
   docObject: DocObject,
   error: Error,
 ): DocObject;
+
+export function isTextPdf(
+  pdfBuffer: Buffer,
+  threshold: number
+): boolean
